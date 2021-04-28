@@ -1,0 +1,5 @@
+zmq.channel:
+  host: localhost
+  port:
+    frontend: 6001
+    backend: 6002

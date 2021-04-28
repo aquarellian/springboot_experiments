@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.integration:spring-integration-zeromq:5.4.7-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/integration/spring-integration-zeromq/5.4.7-SNAPSHOT/spring-integration-zeromq-5.4.7-20210427.204828-4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/integration/spring-integration-zeromq/5.4.7-SNAPSHOT/spring-integration-zeromq-5.4.7-20210427.204828-4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/integration/spring-integration-zeromq/5.4.7-SNAPSHOT/spring-integration-zeromq-5.4.7-20210427.204828-4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
