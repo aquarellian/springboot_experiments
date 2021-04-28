@@ -18,6 +18,7 @@ import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.support.GenericMessage;
 import org.zeromq.ZAuth;
 import org.zeromq.ZContext;
+import zmq.util.Z85;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -112,18 +113,18 @@ public class ZMQServer implements MessageHandler {
         MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
         channel.setMessageConverter(messageConverter);
         channel.setMessageMapper(new EmbeddedJsonHeadersMessageMapper());
-//        channel.setSubscribeSocketConfigurer(socket -> {
-//            socket.setZAPDomain("global".getBytes());
-//            socket.setCurveServer(true);
-//            socket.setCurvePublicKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
-//            socket.setCurveSecretKey(Z85.decode("3*Kg{9Wy@Pvcy2TCLODMK74b2Df!H<xFx%aeU3^a"));
-//        });
-//        channel.setSendSocketConfigurer(socket -> {
-//            socket.setZAPDomain("global".getBytes());
-//            socket.setCurveServer(true);
-//            socket.setCurvePublicKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
-//            socket.setCurveSecretKey(Z85.decode("3*Kg{9Wy@Pvcy2TCLODMK74b2Df!H<xFx%aeU3^a"));
-//        });
+        channel.setSubscribeSocketConfigurer(socket -> {
+            socket.setZAPDomain("global".getBytes());
+            socket.setCurveServer(true);
+            socket.setCurvePublicKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
+            socket.setCurveSecretKey(Z85.decode("3*Kg{9Wy@Pvcy2TCLODMK74b2Df!H<xFx%aeU3^a"));
+        });
+        channel.setSendSocketConfigurer(socket -> {
+            socket.setZAPDomain("global".getBytes());
+            socket.setCurveServer(true);
+            socket.setCurvePublicKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
+            socket.setCurveSecretKey(Z85.decode("3*Kg{9Wy@Pvcy2TCLODMK74b2Df!H<xFx%aeU3^a"));
+        });
 
         channel.afterPropertiesSet();
         ObjectMapper objectMapper = new ObjectMapper();

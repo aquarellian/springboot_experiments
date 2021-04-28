@@ -11,7 +11,9 @@ import org.springframework.integration.zeromq.channel.ZeroMqChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.converter.GenericMessageConverter;
 import org.zeromq.ZAuth;
+import org.zeromq.ZCert;
 import org.zeromq.ZContext;
+import zmq.util.Z85;
 
 import java.time.Duration;
 
@@ -54,28 +56,28 @@ public class ZeroMqConfig {
     }
 
     @Bean(name = "zeroMqPubChannel")
-    ZeroMqChannel zeroMqPubChannel(ZContext context, ObjectMapper objectMapper, ZeroMqProxy proxy) {
-//                                   @Value("${zmq.channel.host}") String host,
-//                                   @Value("${zmq.channel.port.frontend}") int frontendPort,
-//                                   @Value("${zmq.channel.port.backend}") int backendPort) {
+    ZeroMqChannel zeroMqPubChannel(ZContext context, ObjectMapper objectMapper,
+                                   @Value("${zmq.channel.host}") String host,
+                                   @Value("${zmq.channel.port.frontend}") int frontendPort,
+                                   @Value("${zmq.channel.port.backend}") int backendPort) {
         //get indication of what the authenticator is deciding
 
         ZeroMqChannel channel = new ZeroMqChannel(context, true);
-//        channel.setConnectUrl("tcp://" + host + ":" + frontendPort + ":" + backendPort);
-        channel.setZeroMqProxy(proxy);
+        channel.setConnectUrl("tcp://" + host + ":" + frontendPort + ":" + backendPort);
+//        channel.setZeroMqProxy(proxy);
         channel.setConsumeDelay(Duration.ofMillis(100));
         channel.setMessageConverter(new GenericMessageConverter());
-//        ZCert cert = new ZCert();
-//        channel.setSendSocketConfigurer(socket -> {
-//            socket.setCurvePublicKey(cert.getPublicKey());
-//            socket.setCurveSecretKey(cert.getSecretKey());
-//            socket.setCurveServerKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
-//        });
-//        channel.setSubscribeSocketConfigurer(socket -> {
-//            socket.setCurvePublicKey(cert.getPublicKey());
-//            socket.setCurveSecretKey(cert.getSecretKey());
-//            socket.setCurveServerKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
-//        });
+        ZCert cert = new ZCert();
+        channel.setSendSocketConfigurer(socket -> {
+            socket.setCurvePublicKey(cert.getPublicKey());
+            socket.setCurveSecretKey(cert.getSecretKey());
+            socket.setCurveServerKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
+        });
+        channel.setSubscribeSocketConfigurer(socket -> {
+            socket.setCurvePublicKey(cert.getPublicKey());
+            socket.setCurveSecretKey(cert.getSecretKey());
+            socket.setCurveServerKey(Z85.decode(".HgpMsGxpb?n!Yub))n#+{YzLL{&)7D$icCIx6#?"));
+        });
         EmbeddedJsonHeadersMessageMapper mapper = new EmbeddedJsonHeadersMessageMapper(objectMapper);
         channel.setMessageMapper(mapper);
         return channel;
